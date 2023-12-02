@@ -1,11 +1,16 @@
-package jp.co.rentalroom;
+package jp.co.rentalroom.controller;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import jp.co.rentalroom.model.RentalModel;
+import jp.co.rentalroom.model.RentalSpaceService;
 
 /**
  * Servlet implementation class RentalServlet
@@ -26,8 +31,16 @@ public class RentalServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
+		String rentalSpaceId = request.getParameter("id");
+		
+		RentalModel rental = RentalSpaceService.getRentalRoomById(rentalSpaceId);
+		
+		request.setAttribute("rental", rental);
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("views/RentalRoomHome.jsp");
+		
+		dispatcher.forward(request, response);
 	}
 
 	/**
